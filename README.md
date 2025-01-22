@@ -95,7 +95,7 @@ helm install kong-air -f helm/kong-air/values.yaml ./helm/kong-air --namespace k
 1. Get the External IP of the Kong Dataplane Proxy and export it for ease of use:
 
 ```
-k get svc -n kong 
+kubectl get svc -n kong 
 export KONG_SVC_IP=<proxy_external_ip>
 ```
 
