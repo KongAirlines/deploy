@@ -19,5 +19,5 @@ export CIDR=$(docker network inspect -f '{{( index .IPAM.Config 1).Subnet}}' kin
 3. Configure metal-lb and apply to the cluster:
 
 ```
-envsubst < metallb-config.yaml | kubectl apply -f -
+envsubst < kind-setup/metallb-config.yaml | kubectl apply -f -
 ```
