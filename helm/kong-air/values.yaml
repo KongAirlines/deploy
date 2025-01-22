@@ -1,0 +1,40 @@
+kong:
+  name: kong
+  namespace: kong
+
+bookings:
+  enabled: true
+  image:
+    repo: kongair/bookings
+    tag: latest
+  appPort: 3000
+  http:
+    route: /bookings
+
+routes:
+  enabled: true
+  image:
+    repo: kongair/routes
+    tag: latest
+  appPort: 8081
+  http:
+    route: /routes
+
+flights:
+  enabled: true
+  image:
+    repo: kongair/flights
+    tag: latest
+  appPort: 8080
+  http:
+    route: /flights
+
+customers:
+  enabled: true
+  image:
+    repo: kongair/customer
+    tag: latest
+  appPort: 3000
+  http:
+    route: /customer
+

@@ -1,0 +1,14 @@
+{{- if .Values.customers.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: customers
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: customers
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: {{ .Values.customers.appPort }}
+{{- end }}

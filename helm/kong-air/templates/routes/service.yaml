@@ -1,0 +1,14 @@
+{{- if .Values.routes.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: routes
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: routes
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: {{ .Values.routes.appPort }}
+{{- end }}
