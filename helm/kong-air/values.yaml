@@ -11,14 +11,14 @@ bookings:
   http:
     route: /bookings
 
-routes:
+destinations:
   enabled: true
   image:
-    repo: kongair/routes
+    repo: kongair/destinations
     tag: latest
   appPort: 8081
   http:
-    route: /routes
+    route: /destinations
 
 flights:
   enabled: true

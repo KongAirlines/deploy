@@ -1,8 +1,8 @@
-{{- if .Values.routes.enabled }}
+{{- if .Values.destinations.enabled }}
 kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
-  name: routes
+  name: destinations
   namespace: {{ .Release.Namespace }}
 spec:
   parentRefs:
@@ -14,8 +14,8 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: {{ .Values.routes.http.route }}
+            value: {{ .Values.destinations.http.route }}
       backendRefs:
-        - name: routes
+        - name: destinations
           port: 80
 {{- end }}

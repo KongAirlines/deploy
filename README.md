@@ -3,20 +3,38 @@
 This repo contains all the things you'll need to get started deploying Kong's demo system, Kong Air. 
 
 
-## 1. Deploy a Kubernetes Cluster
-
-You will need a Kubernetes cluster to deploy Kong Air. If you want to test locally, [`kind-setup`](./kind-setup) has the relevant baseline to get going.
-
-
 ### Tool dependencies
 
-- `helm`
-- `kind`
-- `kubectl`
-- `curl`
-- `envsubst`
-- `jq`
-- `deck`
+- [`helm`](https://helm.sh/docs/intro/install/)
+- [`kind`](https://kind.sigs.k8s.io/)
+- [`cloud-provider-kind`](https://github.com/kubernetes-sigs/cloud-provider-kind)
+- [`kubectl`](https://kubernetes.io/docs/tasks/tools/)
+- [`curl`](https://curl.se/download.html)
+- [`jq`](https://jqlang.github.io/jq/download/)
+- [`deck`](https://docs.konghq.com/deck/latest/)
+
+
+## 1. Deploy a Kubernetes Cluster
+
+You will need a Kubernetes cluster to deploy Kong Air. If you want to test locally, you can do so with `kind`.
+
+1. Run `kind` to create a cluster:
+
+```
+kind create cluster --name kong-air
+```
+
+2. You may need to untaint the control plane nodes to be able to run a load balancer (don't worry if this step fails, it's not always necessary):
+
+```
+kubectl label node kongair-control-plane node.kubernetes.io/exclude-from-external-load-balancers-
+```
+
+3. [Install](https://github.com/kubernetes-sigs/cloud-provider-kind) and run `cluster-provider-kind` (in another terminal) to provide load balancing:
+
+```
+cloud-provider-kind
+```
 
 ## 2. Deploy the Kong Operator / KIC / Gateway
 
@@ -55,12 +73,12 @@ This step is optional if the images are already pushed / available somewhere in 
 - github.com/KongAirlines/flights
 - github.com/KongAirlines/bookings
 - github.com/KongAirlines/customer
-- github.com/KongAirlines/routes
+- github.com/KongAirlines/destinations
 
 2. Make the images available to the cluster, for a kind cluster called `kongair` use the following:
 
 ```
-kind load docker-image kongair/flights:latest kongair/routes:latest kongair/customer:latest kongair/bookings:latest --name kongair
+kind load docker-image kongair/flights:latest kongair/destinations:latest kongair/customer:latest kongair/bookings:latest --name kongair
 ```
 
 
@@ -79,7 +97,7 @@ kubectl apply -f k8s-raw/kong-air-ns.yaml
 2. Apply application manifests:
 
 ```
-kubectl apply -f  k8s-raw/bookings.yaml -f  k8s-raw/customers.yaml -f  k8s-raw/flights.yaml -f  k8s-raw/routes.yaml
+kubectl apply -f  k8s-raw/bookings.yaml -f  k8s-raw/customers.yaml -f  k8s-raw/flights.yaml -f  k8s-raw/destinations.yaml
 ```
 
 ### Helm
@@ -105,10 +123,10 @@ export KONG_SVC_IP=<proxy_external_ip>
 curl $KONG_SVC_IP/flights
 ```
 
-3. Hit the Routes service:
+3. Hit the destinations service:
 
 ```
-curl $KONG_SVC_IP/routes
+curl $KONG_SVC_IP/destinations
 ```
 
 4. Hit the Bookings service:

@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: routes
+  name: destinations
   namespace: kong-air
 spec:
   selector:
-    app: routes
+    app: destinations
   ports:
   - protocol: TCP
     port: 80
@@ -14,21 +14,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: routes
+  name: destinations
   namespace: kong-air
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: routes
+      app: destinations
   template:
     metadata:
       labels:
-        app: routes
+        app: destinations
     spec:
       containers:
-      - name: routes
-        image: docker.io/kongair/routes:latest # Replace with your Docker image
+      - name: destinations
+        image: docker.io/kongair/destinations:latest # Replace with your Docker image
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8081
@@ -65,7 +65,7 @@ spec:
 kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1
 metadata:
-  name: routes
+  name: destinations
   namespace: kong-air
 spec:
   parentRefs:
@@ -77,7 +77,7 @@ spec:
     - matches:
         - path:
             type: PathPrefix
-            value: /routes
+            value: /destinations
       backendRefs:
-        - name: routes
+        - name: destinations
           port: 80

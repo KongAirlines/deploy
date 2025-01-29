@@ -1,8 +1,8 @@
-{{- if .Values.routes.enabled }}
+{{- if .Values.destinations.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: routes
+  name: destinations
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
@@ -10,5 +10,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80
-    targetPort: {{ .Values.routes.appPort }}
+    targetPort: {{ .Values.destinations.appPort }}
 {{- end }}
