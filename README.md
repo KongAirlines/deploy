@@ -21,7 +21,7 @@ You will need a Kubernetes cluster to deploy Kong Air. If you want to test local
 1. Run `kind` to create a cluster:
 
 ```
-kind create cluster --name kong-air
+kind create cluster --name kongair
 ```
 
 2. You may need to untaint the control plane nodes to be able to run a load balancer (don't worry if this step fails, it's not always necessary):
