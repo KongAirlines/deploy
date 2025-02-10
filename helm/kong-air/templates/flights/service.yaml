@@ -1,0 +1,14 @@
+{{- if .Values.flights.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: flights
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    app: flights
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: {{ .Values.flights.appPort }}
+{{- end }}

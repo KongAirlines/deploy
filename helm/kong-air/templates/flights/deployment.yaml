@@ -1,0 +1,52 @@
+{{- if .Values.flights.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flights
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flights
+  template:
+    metadata:
+      labels:
+        app: flights
+    spec:
+      containers:
+      - name: flights
+        image: {{ .Values.flights.image.repo }}:{{ .Values.flights.image.tag }} # Replace with your Docker image
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: {{ .Values.flights.appPort }}
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: {{ .Values.flights.appPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: {{ .Values.flights.appPort }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+{{- end }}

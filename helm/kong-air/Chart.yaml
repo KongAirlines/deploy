@@ -1,0 +1,17 @@
+apiVersion: v2
+description: Kong Air
+home: https://konghq.com/
+icon: https://s3.amazonaws.com/downloads.kong/universe/assets/icon-kong-inc-large.png
+maintainers:
+  - name: johnharris85
+    email: john.harris@konghq.com
+name: kong-air
+sources:
+  - https://github.com/kongairlines/deploy.git
+version: 0.0.1
+appVersion: "1"
+# dependencies:
+#   - name: postgresql
+#     version: 11.9.13
+#     repository: https://charts.bitnami.com/bitnami
+#     condition: postgresql.enabled

@@ -1,0 +1,21 @@
+{{- if .Values.destinations.enabled }}
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: destinations
+  namespace: {{ .Release.Namespace }}
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: {{ .Values.kong.name }}
+      namespace: {{ .Values.kong.namespace }}
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ .Values.destinations.http.route }}
+      backendRefs:
+        - name: destinations
+          port: 80
+{{- end }}
